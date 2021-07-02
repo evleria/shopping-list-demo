@@ -1,0 +1,20 @@
+services:
+  backend:
+    build: .
+    ports:
+      - "8080:3000"
+    command: sh -c "/wait && /out/server"
+    environment:
+      - DB_CONNECTION=postgres://postgres@postgres:5432/postgres?sslmode=disable
+      - WAIT_HOSTS=postgres:5432
+  postgres:
+    image: "postgres:13-alpine"
+    hostname: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+volumes:
+  pg-data:
