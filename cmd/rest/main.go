@@ -8,10 +8,16 @@ import (
 	_ "github.com/lib/pq"
 	"log"
 	"net/http"
+	"os"
 )
 
 func main() {
-	db, err := sqlx.Connect("postgres", "postgres://postgres@localhost:5432/postgres?sslmode=disable")
+	//"postgres://postgres@localhost:5432/postgres?sslmode=disable"
+	//"postgres://postgres@shopping-list-db:5432/postgres?sslmode=disable"
+
+	dbConn := os.Getenv("DB_CONNECTION")
+	log.Printf("Connecting to %q", dbConn)
+	db, err := sqlx.Connect("postgres", dbConn)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -19,5 +25,5 @@ func main() {
 	r := chi.NewRouter()
 	r.Mount("/api", api.Handler(store.New(db)))
 
-	_ = http.ListenAndServe(":3000", r)
+	log.Fatalln(http.ListenAndServe(":3000", r))
 }

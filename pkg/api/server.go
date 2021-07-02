@@ -25,7 +25,7 @@ func Handler(repo *store.Repo) http.Handler {
 func getItems(repo *store.Repo) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		items, err := repo.GetAllItems()
-		if err == nil {
+		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
