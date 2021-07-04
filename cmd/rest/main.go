@@ -12,10 +12,7 @@ import (
 )
 
 func main() {
-	//"postgres://postgres@localhost:5432/postgres?sslmode=disable"
-	//"postgres://postgres@shopping-list-db:5432/postgres?sslmode=disable"
-
-	dbConn := os.Getenv("DB_CONNECTION")
+	dbConn, port := os.Getenv("DB_CONNECTION"), os.Getenv("PORT")
 	log.Printf("Connecting to %q", dbConn)
 	db, err := sqlx.Connect("postgres", dbConn)
 	if err != nil {
@@ -25,5 +22,5 @@ func main() {
 	r := chi.NewRouter()
 	r.Mount("/api", api.Handler(store.New(db)))
 
-	log.Fatalln(http.ListenAndServe(":3000", r))
+	log.Fatalln(http.ListenAndServe(port, r))
 }

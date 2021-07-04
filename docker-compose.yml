@@ -6,6 +6,7 @@ services:
     command: sh -c "/wait && /out/server"
     environment:
       - DB_CONNECTION=postgres://postgres@postgres:5432/postgres?sslmode=disable
+      - PORT=:3000
       - WAIT_HOSTS=postgres:5432
   postgres:
     image: "postgres:13-alpine"

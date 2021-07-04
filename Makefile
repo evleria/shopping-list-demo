@@ -1,5 +1,5 @@
 postgres:
-	docker run --name shopping-list-db -e POSTGRES_HOST_AUTH_METHOD=trust -p 5432:5432 -d --rm postgres:13-alpine
+	docker run --name shopping-list-db -e POSTGRES_HOST_AUTH_METHOD=trust -p 5432:5432 --mount source=shopping-list-demo_pg-data,target=/var/lib/postgresql/data -d --rm postgres:13-alpine
 migrate-up:
 	migrate -source "file://db/migrations/" -database "postgres://postgres@localhost:5432/postgres?sslmode=disable" up
 migrate-down:

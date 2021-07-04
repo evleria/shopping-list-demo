@@ -1,6 +1,6 @@
 import { Action } from "redux";
-import { FETCHED_ITEMS } from "./constants";
-import { FetchedItemsAction } from "./actions";
+import { ADDED_ITEM, FETCHED_ITEMS } from "./constants";
+import { AddedItemAction, FetchedItemsAction } from "./actions";
 
 export type ItemEntity = {
   id: number;
@@ -25,6 +25,13 @@ export default function appReducer(
       const fetchedItemsAction = action as FetchedItemsAction;
       return {
         items: [...fetchedItemsAction.payload],
+      };
+    }
+
+    case ADDED_ITEM: {
+      const addedItemAction = action as AddedItemAction;
+      return {
+        items: [...state.items, addedItemAction.payload],
       };
     }
   }

@@ -1,8 +1,14 @@
 import * as React from "react";
 import { createRef } from "react";
 import { connect } from "react-redux";
+import { ThunkDispatch } from "redux-thunk";
+import { AppState } from "../state/appReducer";
+import { Action } from "redux";
+import { addItem } from "../state/actions";
 
-export interface IAddPanelProps {}
+export interface IAddPanelProps {
+  addItem: (name: string) => void;
+}
 
 function AddPanel(props: IAddPanelProps) {
   const input = createRef<HTMLInputElement>();
@@ -10,7 +16,7 @@ function AddPanel(props: IAddPanelProps) {
     if (input.current) {
       const name = input.current.value.trim();
       if (name) {
-        console.log(`adding item ${name}`);
+        props.addItem(name);
       }
     }
   };
@@ -34,4 +40,10 @@ function AddPanel(props: IAddPanelProps) {
   );
 }
 
-export default connect(null, null)(AddPanel);
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<AppState, unknown, Action>
+) => ({
+  addItem: (name: string) => dispatch(addItem(name)),
+});
+
+export default connect(null, mapDispatchToProps)(AddPanel);
