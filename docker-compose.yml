@@ -2,7 +2,7 @@ services:
   backend:
     build: .
     ports:
-      - "8080:3000"
+      - "3001:3000"
     command: sh -c "/wait && /out/server"
     environment:
       - DB_CONNECTION=postgres://postgres@postgres:5432/postgres?sslmode=disable
