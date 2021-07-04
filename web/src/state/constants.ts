@@ -1,1 +1,2 @@
-export const ADD_ITEM = "ADD_ITEM";
+export const FETCHING_ITEMS = "@items/fetching";
+export const FETCHED_ITEMS = "@items/fetched";

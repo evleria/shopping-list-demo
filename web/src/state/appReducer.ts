@@ -1,29 +1,33 @@
-import { ActionType, createReducer } from "typesafe-actions";
-import * as actions from "./actions";
-import { ADD_ITEM } from "./constants";
+import { Action } from "redux";
+import { FETCHED_ITEMS } from "./constants";
+import { FetchedItemsAction } from "./actions";
 
 export type ItemEntity = {
   id: number;
   name: string;
+  createdAt: string;
 };
 
-export type AppState = Readonly<{
-  items: ReadonlyArray<ItemEntity>;
-}>;
-
-export type AppAction = ActionType<typeof actions>;
+export interface AppState {
+  items: ItemEntity[];
+}
 
 const initialState: AppState = {
   items: [],
 };
 
-const appReducer = createReducer<AppState, AppAction>(initialState).handleType(
-  ADD_ITEM,
-  (state, action) => ({
-    items: [
-      ...state.items,
-      { id: Math.floor(Math.random() * 1000), name: action.payload },
-    ],
-  })
-);
-export default appReducer;
+export default function appReducer(
+  state: AppState = initialState,
+  action: Action
+): AppState {
+  switch (action.type) {
+    case FETCHED_ITEMS: {
+      const fetchedItemsAction = action as FetchedItemsAction;
+      return {
+        items: [...fetchedItemsAction.payload],
+      };
+    }
+  }
+
+  return state;
+}

@@ -1,11 +1,8 @@
 import * as React from "react";
-import { connect } from "react-redux";
-import { addItem } from "../state/actions";
 import { createRef } from "react";
+import { connect } from "react-redux";
 
-export interface IAddPanelProps {
-  onAdd: (name: string) => void;
-}
+export interface IAddPanelProps {}
 
 function AddPanel(props: IAddPanelProps) {
   const input = createRef<HTMLInputElement>();
@@ -13,7 +10,7 @@ function AddPanel(props: IAddPanelProps) {
     if (input.current) {
       const name = input.current.value.trim();
       if (name) {
-        props.onAdd(name);
+        console.log(`adding item ${name}`);
       }
     }
   };
@@ -37,8 +34,4 @@ function AddPanel(props: IAddPanelProps) {
   );
 }
 
-const dispatchToProps = {
-  onAdd: addItem,
-};
-
-export default connect(null, dispatchToProps)(AddPanel);
+export default connect(null, null)(AddPanel);

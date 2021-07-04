@@ -1,13 +1,21 @@
-import * as React from "react";
+import React, { useEffect } from "react";
+import { Action } from "redux";
 import { connect } from "react-redux";
+import { ThunkDispatch } from "redux-thunk";
 import Item from "./Item";
 import { AppState, ItemEntity } from "../state/appReducer";
+import { fetchItems } from "../state/actions";
 
 export interface IItemsListProps {
-  items: ReadonlyArray<ItemEntity>;
+  items: ItemEntity[];
+  fetchItems: () => void;
 }
 
 function ItemsList(props: IItemsListProps) {
+  useEffect(() => {
+    props.fetchItems();
+  }, []);
+
   return (
     <ul className="list-group py-1">
       {props.items.map((item) => (
@@ -23,4 +31,10 @@ const mapStateToProps = (state: AppState) => ({
   items: state.items,
 });
 
-export default connect(mapStateToProps)(ItemsList);
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<AppState, unknown, Action>
+) => ({
+  fetchItems: () => dispatch(fetchItems()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ItemsList);
