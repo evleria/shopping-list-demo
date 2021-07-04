@@ -3,7 +3,7 @@ import { Action } from "redux";
 import { connect } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
 import Item from "./Item";
-import { IAppState, ItemEntity } from "../state/appReducer";
+import { AppState, ItemEntity } from "../state/appReducer";
 import { fetchItems } from "../state/actions";
 
 export interface IItemsListProps {
@@ -27,12 +27,12 @@ function ItemsList(props: IItemsListProps) {
   );
 }
 
-const mapStateToProps = (state: IAppState) => ({
+const mapStateToProps = (state: AppState) => ({
   items: state.items,
 });
 
 const mapDispatchToProps = (
-  dispatch: ThunkDispatch<IAppState, unknown, Action>
+  dispatch: ThunkDispatch<AppState, unknown, Action>
 ) => ({
   fetchItems: () => dispatch(fetchItems()),
 });

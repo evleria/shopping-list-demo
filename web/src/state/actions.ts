@@ -1,7 +1,7 @@
 import { Action, ActionCreator, Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
 import { FETCHED_ITEMS, FETCHING_ITEMS } from "./constants";
-import { IAppState } from "./appReducer";
+import { AppState } from "./appReducer";
 import * as api from "../api/api";
 
 export interface ActionWithPayload<T> extends Action {
@@ -23,7 +23,7 @@ const fetchedItems: ActionCreator<FetchedItemsAction> = (items: api.Item[]) => {
 };
 
 export const fetchItems: ActionCreator<
-  ThunkAction<void, IAppState, unknown, Action>
+  ThunkAction<void, AppState, unknown, Action>
 > = () => {
   return async (dispatch: Dispatch<Action>) => {
     dispatch(fetchingItems());

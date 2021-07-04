@@ -8,18 +8,18 @@ export type ItemEntity = {
   createdAt: string;
 };
 
-export interface IAppState {
+export interface AppState {
   items: ItemEntity[];
 }
 
-const initialState: IAppState = {
+const initialState: AppState = {
   items: [],
 };
 
 export default function appReducer(
-  state: IAppState = initialState,
+  state: AppState = initialState,
   action: Action
-): IAppState {
+): AppState {
   switch (action.type) {
     case FETCHED_ITEMS: {
       const fetchedItemsAction = action as FetchedItemsAction;
