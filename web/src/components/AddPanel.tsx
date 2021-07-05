@@ -16,6 +16,7 @@ function AddPanel(props: IAddPanelProps) {
     if (input.current) {
       const name = input.current.value.trim();
       if (name) {
+        input.current.value = "";
         props.addItem(name);
       }
     }

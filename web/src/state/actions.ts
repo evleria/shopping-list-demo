@@ -55,3 +55,27 @@ export const addItem: ActionCreator<
     dispatch(addedItem(data));
   };
 };
+
+const deletingItem: ActionCreator<Action> = () => {
+  return {
+    type: constants.DELETING_ITEM,
+  };
+};
+
+export type DeletedItemAction = ActionWithPayload<number>;
+const deletedItem: ActionCreator<DeletedItemAction> = (id: number) => {
+  return {
+    type: constants.DELETED_ITEM,
+    payload: id,
+  };
+};
+
+export const deleteItem: ActionCreator<
+  ThunkAction<void, AppState, unknown, Action>
+> = (id: number) => {
+  return async (dispatch: Dispatch<Action>) => {
+    dispatch(deletingItem());
+    await api.deleteItem(id);
+    dispatch(deletedItem(id));
+  };
+};

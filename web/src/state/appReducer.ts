@@ -1,6 +1,10 @@
 import { Action } from "redux";
-import { ADDED_ITEM, FETCHED_ITEMS } from "./constants";
-import { AddedItemAction, FetchedItemsAction } from "./actions";
+import { ADDED_ITEM, FETCHED_ITEMS, DELETED_ITEM } from "./constants";
+import {
+  AddedItemAction,
+  DeletedItemAction,
+  FetchedItemsAction,
+} from "./actions";
 
 export type ItemEntity = {
   id: number;
@@ -34,7 +38,13 @@ export default function appReducer(
         items: [...state.items, addedItemAction.payload],
       };
     }
-  }
 
+    case DELETED_ITEM: {
+      const deletedItemAction = action as DeletedItemAction;
+      return {
+        items: state.items.filter((i) => i.id !== deletedItemAction.payload),
+      };
+    }
+  }
   return state;
 }

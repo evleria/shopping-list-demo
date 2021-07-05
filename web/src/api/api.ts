@@ -14,6 +14,16 @@ export async function addItem(name: string): Promise<Item> {
   return await response.json();
 }
 
+export async function deleteItem(id: number): Promise<void> {
+  await fetch("/api", {
+    method: "DELETE",
+    body: JSON.stringify({ id }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
+
 export interface Item {
   id: number;
   name: string;

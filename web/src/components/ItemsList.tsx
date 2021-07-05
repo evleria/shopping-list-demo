@@ -4,11 +4,12 @@ import { connect } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
 import Item from "./Item";
 import { AppState, ItemEntity } from "../state/appReducer";
-import { fetchItems } from "../state/actions";
+import { fetchItems, deleteItem } from "../state/actions";
 
 export interface IItemsListProps {
   items: ItemEntity[];
   fetchItems: () => void;
+  deleteItem: (id: number) => void;
 }
 
 function ItemsList(props: IItemsListProps) {
@@ -20,7 +21,11 @@ function ItemsList(props: IItemsListProps) {
     <ul className="list-group py-1">
       {props.items.map((item) => (
         <li className="list-group-item">
-          <Item key={item.id} name={item.name} />
+          <Item
+            key={item.id}
+            name={item.name}
+            onDelete={() => props.deleteItem(item.id)}
+          />
         </li>
       ))}
     </ul>
@@ -35,6 +40,7 @@ const mapDispatchToProps = (
   dispatch: ThunkDispatch<AppState, unknown, Action>
 ) => ({
   fetchItems: () => dispatch(fetchItems()),
+  deleteItem: (id: number) => dispatch(deleteItem(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ItemsList);

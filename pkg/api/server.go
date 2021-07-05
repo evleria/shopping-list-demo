@@ -19,6 +19,7 @@ func Handler(repo *store.Repo) http.Handler {
 	r.Route("/", func(r chi.Router) {
 		r.Get("/", getItems(repo))
 		r.Post("/", addItem(repo))
+		r.Delete("/", deleteItem(repo))
 	})
 
 	return r
@@ -52,6 +53,25 @@ func addItem(repo *store.Repo) http.HandlerFunc {
 			return
 		}
 		_ = writeAsJson(w, item)
+	}
+}
+
+func deleteItem(repo *store.Repo) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		var request DeleteItemRequest
+		err := json.NewDecoder(r.Body).Decode(&request)
+		if err != nil {
+			log.Println(err)
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+		err = repo.DeleteItem(request.Id)
+		if err != nil {
+			log.Println(err)
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+		w.WriteHeader(http.StatusNoContent)
 	}
 }
 
