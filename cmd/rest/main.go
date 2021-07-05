@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/evleria/shopping-list-demo/pkg/api"
+	"github.com/evleria/shopping-list-demo/pkg/static"
 	"github.com/evleria/shopping-list-demo/pkg/store"
 	"github.com/go-chi/chi/v5"
 	"github.com/jmoiron/sqlx"
@@ -12,7 +13,12 @@ import (
 )
 
 func main() {
-	dbConn, port := os.Getenv("DB_CONNECTION"), os.Getenv("PORT")
+	var (
+		dbConn     = os.Getenv("DB_CONNECTION")
+		port       = getEnvVar("PORT", ":3000")
+		staticPath = getEnvVar("STATIC_PATH", "build")
+	)
+
 	log.Printf("Connecting to %q", dbConn)
 	db, err := sqlx.Connect("postgres", dbConn)
 	if err != nil {
@@ -21,6 +27,14 @@ func main() {
 
 	r := chi.NewRouter()
 	r.Mount("/api", api.Handler(store.New(db)))
+	r.Mount("/", static.Handler(staticPath))
 
 	log.Fatalln(http.ListenAndServe(port, r))
+}
+
+func getEnvVar(key, defaultValue string) string {
+	if result, ok := os.LookupEnv(key); ok {
+		return result
+	}
+	return defaultValue
 }
