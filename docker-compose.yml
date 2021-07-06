@@ -5,7 +5,7 @@ services:
       - "3001:3000"
     command: sh -c "/wait && /out/server"
     environment:
-      - DB_CONNECTION=postgres://postgres@postgres:5432/postgres?sslmode=disable
+      - DATABASE_URL=postgres://postgres@postgres:5432/postgres?sslmode=disable
       - STATIC_PATH=out/build
       - WAIT_HOSTS=postgres:5432
   postgres:

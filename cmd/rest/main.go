@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/evleria/shopping-list-demo/pkg/api"
 	"github.com/evleria/shopping-list-demo/pkg/static"
 	"github.com/evleria/shopping-list-demo/pkg/store"
@@ -14,8 +15,8 @@ import (
 
 func main() {
 	var (
-		dbConn     = os.Getenv("DB_CONNECTION")
-		port       = getEnvVar("PORT", ":3000")
+		dbConn     = os.Getenv("DATABASE_URL")
+		port       = getEnvVar("PORT", "3000")
 		staticPath = getEnvVar("STATIC_PATH", "build")
 	)
 
@@ -29,7 +30,7 @@ func main() {
 	r.Mount("/api", api.Handler(store.New(db)))
 	r.Mount("/", static.Handler(staticPath))
 
-	log.Fatalln(http.ListenAndServe(port, r))
+	log.Fatalln(http.ListenAndServe(fmt.Sprintf(":%s", port), r))
 }
 
 func getEnvVar(key, defaultValue string) string {
