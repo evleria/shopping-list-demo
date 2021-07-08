@@ -17,4 +17,4 @@ jobs:
           heroku_email: "valeryia.vidzevich@gmail.com"
           usedocker: true
         env:
-          STATIC_PATH: out/build
+          HD_STATIC_PATH: out/build
