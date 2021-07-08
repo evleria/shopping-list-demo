@@ -14,6 +14,8 @@ import (
 )
 
 func main() {
+	printEnv()
+
 	var (
 		dbConn     = os.Getenv("DATABASE_URL")
 		port       = getEnvVar("PORT", "3000")
@@ -33,14 +35,14 @@ func main() {
 	log.Fatalln(http.ListenAndServe(fmt.Sprintf(":%s", port), r))
 }
 
+func printEnv() {
+	fmt.Println("Environment variables:")
+	fmt.Println(os.Environ())
+}
+
 func getEnvVar(key, defaultValue string) string {
-	var result string
-	if r, ok := os.LookupEnv(key); ok {
-		result = r
+	if result, ok := os.LookupEnv(key); ok {
+		return result
 	}
-	result = defaultValue
-
-	fmt.Printf("env var %s=%s\n", key, result)
-
-	return result
+	return defaultValue
 }
