@@ -34,8 +34,13 @@ func main() {
 }
 
 func getEnvVar(key, defaultValue string) string {
-	if result, ok := os.LookupEnv(key); ok {
-		return result
+	var result string
+	if r, ok := os.LookupEnv(key); ok {
+		result = r
 	}
-	return defaultValue
+	result = defaultValue
+
+	fmt.Printf("env var %s=%s\n", key, result)
+
+	return result
 }
