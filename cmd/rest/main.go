@@ -26,7 +26,7 @@ func main() {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	defer log.Fatalln(db.Close())
+	defer db.Close()
 
 	r := chi.NewRouter()
 	r.Mount("/api", api.Handler(store.New(db)))
@@ -37,7 +37,9 @@ func main() {
 
 func printEnv() {
 	fmt.Println("Environment variables:")
-	fmt.Println(os.Environ())
+	for _, e := range os.Environ() {
+		fmt.Println(e)
+	}
 }
 
 func getEnvVar(key, defaultValue string) string {
