@@ -6,7 +6,6 @@ services:
     command: sh -c "/wait && /out/server"
     environment:
       - DATABASE_URL=postgres://postgres@postgres:5432/postgres?sslmode=disable
-      - STATIC_PATH=out/build
       - WAIT_HOSTS=postgres:5432
   postgres:
     image: "postgres:13-alpine"

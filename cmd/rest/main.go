@@ -17,14 +17,14 @@ func main() {
 	var (
 		dbConn     = os.Getenv("DATABASE_URL")
 		port       = getEnvVar("PORT", "3000")
-		staticPath = getEnvVar("STATIC_PATH", "build")
+		staticPath = getEnvVar("STATIC_PATH", "out/build")
 	)
 
-	log.Printf("Connecting to %q", dbConn)
 	db, err := sqlx.Connect("postgres", dbConn)
 	if err != nil {
 		log.Fatalln(err)
 	}
+	defer log.Fatalln(db.Close())
 
 	r := chi.NewRouter()
 	r.Mount("/api", api.Handler(store.New(db)))
