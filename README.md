@@ -1,4 +1,4 @@
-# Shopping List Demo &#128521;
+# Shopping List Demo :unicorn:
 ![Heroku](https://heroku-badge.herokuapp.com/?app=evleria-shopping-list-demo)
 
 The goal of this project is to build simpliest (no Auth is intended) web application using:
